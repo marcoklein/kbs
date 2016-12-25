@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class LeapMotionLogger {
 
-       public static void main(String[] args) {
+       public static void readValues() {
            
         // Create a sample listener and controller
         SampleListener listener = new SampleListener();
@@ -50,8 +50,19 @@ class SampleListener extends Listener {
         Vector palmPosition = frame.hands().frontmost().palmPosition();
         Vector palmVelocity = frame.hands().frontmost().palmVelocity();
         
+        Hand hand = frame.hands().get(0);
+        
+        int thumbFingerExtended = hand.fingers().fingerType(Finger.Type.TYPE_THUMB).extended().count();
+        int indexFingerExtended = hand.fingers().fingerType(Finger.Type.TYPE_INDEX).extended().count();
+        int middleFingerExtended = hand.fingers().fingerType(Finger.Type.TYPE_MIDDLE).extended().count();
+        int ringFingerExtended = hand.fingers().fingerType(Finger.Type.TYPE_RING).extended().count();
+        int pinkyFingerExtended = hand.fingers().fingerType(Finger.Type.TYPE_PINKY).extended().count();
+        
+        
         String data = palmPosition.getX() + "," + palmPosition.getY() + "," + palmPosition.getZ() + "," +
-        			  palmVelocity.getX() + "," + palmVelocity.getY() + "," + palmVelocity.getZ() + "\r\n";
+        			  palmVelocity.getX() + "," + palmVelocity.getY() + "," + palmVelocity.getZ() + "," +
+        			  thumbFingerExtended + "," + indexFingerExtended + "," + middleFingerExtended+ "," + ringFingerExtended + "," + pinkyFingerExtended
+        			    + "\r\n";
         
         System.out.println("Palm X, Y, Z Position: " + data);
         
