@@ -83,7 +83,7 @@ class SampleListener extends Listener {
         {
             String dirName = System.getProperty("user.dir");
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");  
-            file = new File( dirName + "\\"+ df.format(new Date()) +"_Statistics.csv");  
+            file = new File( dirName + "\\"+ df.format(new Date()) +"_Similarity.csv");  
             
             if ( !file.exists() )
             try {

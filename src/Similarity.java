@@ -11,6 +11,11 @@ public class Similarity {
 			{0,0,0,0,0}, //Stein
 			{1,1,1,1,1}  //Papier
 	};
+	public static String[] signName = {
+			"Schere",
+			"Stein",
+			"Papier"
+	};
 	
 	public static double[] simpleMatchingCoefficient(int[] testData){
 		
@@ -37,11 +42,11 @@ public class Similarity {
 	
 	public static void main(String [] args){
 		//create output csv file
-		String header = "Thumb;Index;Middle;Ring;Pinky;Schere;Stein;Papier";
+		String header = "Thumb;Index;Middle;Ring;Pinky;Schere;Stein;Papier;Ergebnis";
         SampleListener.CreateCSVFile(header);
 		
         //read input csv file
-  		ArrayList<int []> lines = ReadFromCSVFile("kbs_assignment_ssp_input_imperfect_data_2016-12-08_04.20.csv");
+  		ArrayList<int []> lines = ReadFromCSVFile("input.csv");
       		
 		for(int [] testData : lines){
 			
@@ -49,16 +54,25 @@ public class Similarity {
 
 			//compare testData to the knowledge base
 			double smc[] = simpleMatchingCoefficient(testData);
-			
+				
 			//add results to csv output
 			for(int f : testData)
 				outputLine += f + ";";
 			for(int i=0; i<knowledgeBase.length; i++){
 				outputLine += smc[i] + ";";
 			}
-			outputLine = outputLine.substring(0, outputLine.length()-1);
+			
+			//determine most probable result
+			String result = "Nicht Eindeutig";
+			double highestSMC = 0.6; //0.6 is the threshold to where the SMC becomes significant
+			for(int i=0; i<smc.length; i++)
+				if (smc[i] > highestSMC){
+					highestSMC = smc[i];
+					result = signName[i];
+				}
+			outputLine += result;
+			
 			outputLine += "\r\n";
-						
 	        SampleListener.AppendRowIntoCSVFile(outputLine);
 		}
 
